@@ -34,7 +34,6 @@ import (
 	apps "k8s.io/api/apps/v1"
 	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/util/intstr"
 )
 
 const (
@@ -230,16 +229,7 @@ func (c *Cluster) makeMgrDaemonContainer(mgrConfig *mgrConfig) v1.Container {
 			controller.DaemonEnvVars(c.cephVersion.Image),
 			c.cephMgrOrchestratorModuleEnvs()...,
 		),
-		Resources: c.resources,
-		LivenessProbe: &v1.Probe{
-			Handler: v1.Handler{
-				HTTPGet: &v1.HTTPGetAction{
-					Path: "/",
-					Port: intstr.FromInt(metricsPort),
-				},
-			},
-			InitialDelaySeconds: 60,
-		},
+		Resources:       c.resources,
 		SecurityContext: mon.PodSecurityContext(),
 	}
 
