@@ -241,7 +241,6 @@ func (c *Cluster) configureModules(daemonIDs []string) {
 	// Configure the modules asynchronously so we can complete all the configuration much sooner.
 	startModuleConfiguration("http bind settings", c.clearHTTPBindFix)
 	startModuleConfiguration("orchestrator modules", c.configureOrchestratorModules)
-	startModuleConfiguration("prometheus", c.enablePrometheusModule)
 	startModuleConfiguration("dashboard", c.configureDashboardModules)
 	// "crash" is part of the "always_on_modules" list as of Octopus
 	if !c.clusterInfo.CephVersion.IsAtLeastOctopus() {
